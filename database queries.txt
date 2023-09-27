@@ -1,0 +1,6 @@
+mysql> create database product_db;
+
+mysql> create user 'puser'@'%' identified by 'pass1234';
+
+
+mysql> grant all on product_db.* to 'puser'@'%';
