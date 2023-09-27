@@ -41,7 +41,7 @@ public class ProductController {
      * Create a new product, but the price must not exceed $10,000.
      * If the price is more than $5,000, the product should be pushed to the approval queue.
      */
-    @PostMapping(path = "/products") // Map ONLY POST Requests
+    @PostMapping(path = "/products")
     public @ResponseBody ResponseEntity<HttpStatus> addProduct(@RequestBody Product product) throws PriceLimitExceeded {
         productService.createProduct(product);
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
@@ -51,7 +51,7 @@ public class ProductController {
      * Update an existing product, but if the price is more than 50% of its previous price,
      * the product should be pushed to the approval queue.
      */
-    @PutMapping(path = "/products/{productId}") // Map ONLY POST Requests
+    @PutMapping(path = "/products/{productId}") 
     public @ResponseBody ResponseEntity<HttpStatus> updateProduct(@PathVariable Integer productId, @RequestBody Product product)
             throws ProductNotFoundException {
         productService.update(productId, product);
@@ -61,7 +61,7 @@ public class ProductController {
     /**
      * Delete a product, and it should be pushed to the approval queue.
      */
-    @DeleteMapping(path = "/products/{productId}") // Map ONLY POST Requests
+    @DeleteMapping(path = "/products/{productId}")
     public @ResponseBody ResponseEntity<HttpStatus> deleteProduct(@PathVariable Integer productId) throws ProductNotFoundException {
         productService.deleteProduct(productId);
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
@@ -72,7 +72,6 @@ public class ProductController {
      * Get all the products in the approval queue, sorted by request date (earliest first).
      */
     @GetMapping(path = "/products/approval-queue")
-    //Get all the products in the approval queue, sorted by request date (earliest first)
     public @ResponseBody Iterable<Product> getPendingApprovals() {
         return productService.getPendingProducts();
     }
@@ -80,7 +79,7 @@ public class ProductController {
     /**
      * Approve a product from the approval queue. The product state should be updated, and it should no longer appear in the approval queue.
      */
-    @PutMapping(path = "/products/approval-queue/{approvalId}/approve") // Map ONLY POST Requests
+    @PutMapping(path = "/products/approval-queue/{approvalId}/approve")
     public @ResponseBody ResponseEntity<HttpStatus> approveProduct(@PathVariable Integer approvalId)
             throws ProductNotFoundException {
         productService.approvalQueue(approvalId, "approved");
@@ -90,7 +89,7 @@ public class ProductController {
     /**
      * Reject a product from the approval queue. The product state should remain the same, and it should no longer appear in the approval queue.
      */
-    @PutMapping(path = "/products//approval-queue/{approvalId}/reject") // Map ONLY POST Requests
+    @PutMapping(path = "/products//approval-queue/{approvalId}/reject")
     public @ResponseBody ResponseEntity<HttpStatus> rejectProduct(@PathVariable Integer approvalId)
             throws ProductNotFoundException {
         productService.approvalQueue(approvalId, "rejected");
